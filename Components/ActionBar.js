@@ -1,14 +1,10 @@
 import React from 'react';
-import {
-    View,
-    Text,
-    StyleSheet, TouchableOpacity,
-} from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import {StyleSheet, Text, View,} from 'react-native';
+import {FontAwesome} from '@expo/vector-icons';
 
 const ActionBar = props => {
     const {style, ...rest} = props;
-    if(props.error) {
+    if (props.error) {
         let error = props.error;
         return (
             <View style={styles.errorContainer}>
@@ -20,11 +16,12 @@ const ActionBar = props => {
             </View>
         );
     }
-    if(props.backArrow) {
+    if (props.backArrow) {
         return (
             <View style={[styles.container, style]} {...rest}>
                 <View style={styles.leftContainer}>
-                    <FontAwesome onPress={() => props.data.navigation.pop()} style={[styles.icon]} name="angle-left" size={32}/>
+                    <FontAwesome onPress={() => props.data.navigation.pop()} style={[styles.icon]} name="angle-left"
+                                 size={32}/>
                 </View>
             </View>
         );
