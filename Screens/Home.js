@@ -1,21 +1,12 @@
-import React, {useState, Component} from 'react'
-import {
-    View,
-    StyleSheet,
-    Text,
-    Image,
-    ScrollView,
-    TouchableOpacity,
-    StatusBar,
-    ActivityIndicator
-} from 'react-native';
+import React, {Component} from 'react'
+import {ActivityIndicator, Image, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {RaisedTextButton} from 'react-native-material-buttons';
 import * as Google from "expo-google-app-auth";
 import googleCloudConfig from "../GoogleCloudConfig";
 import * as ImagePicker from 'expo-image-picker';
-import { Camera } from 'expo-camera';
+import {Camera} from 'expo-camera';
 import * as Permissions from 'expo-permissions';
-import { FontAwesome, Ionicons,MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
+import {AntDesign, FontAwesome, Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
 import ActionBar from "../Components/ActionBar";
 
 class Home extends Component {
@@ -33,16 +24,17 @@ class Home extends Component {
     }
 
     async componentDidMount() {
-        const { status } = await Permissions.askAsync(Permissions.CAMERA);
+        const {status} = await Permissions.askAsync(Permissions.CAMERA);
         if (status === 'granted') {
-            this.setState({ hasPermission: status === 'granted' });
+            this.setState({hasPermission: status === 'granted'});
         }
     }
 
-    handleCameraType=()=>{
-        const { cameraType } = this.state;
+    handleCameraType = () => {
+        const {cameraType} = this.state;
 
-        this.setState({cameraType:
+        this.setState({
+            cameraType:
                 cameraType === Camera.Constants.Type.back
                     ? Camera.Constants.Type.front
                     : Camera.Constants.Type.back
@@ -111,22 +103,22 @@ class Home extends Component {
             if (result.type === "default" && result.status === 200) {
                 return this.props.navigation.navigate('Login'); //after Google logout redirect to Login
             } else {
-                return { cancelled: true };
+                return {cancelled: true};
             }
         } catch (e) {
             console.log('Error with logout', e);
-            return { error: true };
+            return {error: true};
         }
     };
 
     submitToGoogle = async () => {
         try {
-            this.setState({ uploading: true, loading: true });
+            this.setState({uploading: true, loading: true});
             let body = JSON.stringify({
                 requests: [
                     {
                         features: [
-                            { type: 'OBJECT_LOCALIZATION', maxResults: 1 },
+                            {type: 'OBJECT_LOCALIZATION', maxResults: 1},
                         ],
                         image: {
                             content: this.state.base64Image
@@ -176,13 +168,13 @@ class Home extends Component {
                     />
                     <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps={"handled"}
                                 keyboardDismissMode={"on-drag"}>
-                        <Text style={{ fontSize: 20, fontWeight: 'bold', padding: 10, margin: 5 }}>
+                        <Text style={{fontSize: 20, fontWeight: 'bold', padding: 10, margin: 5}}>
                             Welcome, {this.props.navigation.getParam('username')}
                         </Text>
                         {this.state.selectedImage !== '' && (
                             <View style={styles.imageContainer}>
                                 <Image
-                                    source={{ uri: this.state.selectedImage }}
+                                    source={{uri: this.state.selectedImage}}
                                     style={styles.thumbnail}
                                 />
                                 {this.state.loading && (
@@ -191,7 +183,7 @@ class Home extends Component {
                                     </View>
                                 )}
                                 {!this.state.loading && (
-                                    <Text style={{ fontSize: 20, fontWeight: 'bold', padding: 10, margin: 5 }}>
+                                    <Text style={{fontSize: 20, fontWeight: 'bold', padding: 10, margin: 5}}>
                                         {this.state.identifiedImage}
                                     </Text>
                                 )}
@@ -257,20 +249,26 @@ class Home extends Component {
         } else {
             return (
                 <View style={{flex: 1}}>
-                    <Camera style={{ flex: 1 }} type={this.state.cameraType} ref={ref => {
+                    <Camera style={{flex: 1}} type={this.state.cameraType} ref={ref => {
                         this.camera = ref;
                     }}>
-                        <View style={{flex:1, flexDirection:"row",justifyContent:"flex-start",marginTop:40, marginLeft:20}}>
+                        <View style={{
+                            flex: 1,
+                            flexDirection: "row",
+                            justifyContent: "flex-start",
+                            marginTop: 40,
+                            marginLeft: 20
+                        }}>
                             <TouchableOpacity
                                 style={{
                                     alignSelf: 'flex-start',
                                     alignItems: 'flex-start',
                                     backgroundColor: 'transparent',
                                 }} onPress={this.closeCamera}>
-                                <AntDesign name="close" size={40} color="#fff" />
+                                <AntDesign name="close" size={40} color="#fff"/>
                             </TouchableOpacity>
                         </View>
-                        <View style={{flex:1, flexDirection:"row",justifyContent:"space-between",margin:20}}>
+                        <View style={{flex: 1, flexDirection: "row", justifyContent: "space-between", margin: 20}}>
                             <TouchableOpacity
                                 style={{
                                     alignSelf: 'flex-end',
@@ -279,7 +277,7 @@ class Home extends Component {
                                 }} onPress={this.openImagePickerAsync}>
                                 <Ionicons
                                     name="ios-photos"
-                                    style={{ color: "#fff", fontSize: 40}}
+                                    style={{color: "#fff", fontSize: 40}}
                                 />
                             </TouchableOpacity>
                             <TouchableOpacity
@@ -287,10 +285,10 @@ class Home extends Component {
                                     alignSelf: 'flex-end',
                                     alignItems: 'center',
                                     backgroundColor: 'transparent',
-                                }} onPress={()=>this.takePicture()}>
+                                }} onPress={() => this.takePicture()}>
                                 <FontAwesome
                                     name="camera"
-                                    style={{ color: "#fff", fontSize: 40}}
+                                    style={{color: "#fff", fontSize: 40}}
                                 />
                             </TouchableOpacity>
                             <TouchableOpacity
@@ -298,10 +296,10 @@ class Home extends Component {
                                     alignSelf: 'flex-end',
                                     alignItems: 'center',
                                     backgroundColor: 'transparent',
-                                }} onPress={()=>this.handleCameraType()}>
+                                }} onPress={() => this.handleCameraType()}>
                                 <MaterialCommunityIcons
                                     name="camera-switch"
-                                    style={{ color: "#fff", fontSize: 40}}
+                                    style={{color: "#fff", fontSize: 40}}
                                 />
                             </TouchableOpacity>
                         </View>

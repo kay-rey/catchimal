@@ -1,9 +1,5 @@
-import React, {useState, Component} from 'react'
-import {
-    View,
-    StyleSheet,
-    Button, StatusBar
-} from 'react-native';
+import React, {Component} from 'react'
+import {Button, StatusBar, StyleSheet, View} from 'react-native';
 import * as Google from "expo-google-app-auth";
 import googleCloudConfig from "../GoogleCloudConfig";
 import ActionBar from "../Components/ActionBar";
@@ -28,11 +24,11 @@ class Login extends Component {
                 }); //after Google login redirect to Home
                 return result.accessToken;
             } else {
-                return { cancelled: true };
+                return {cancelled: true};
             }
         } catch (e) {
             console.log('Error with login', e);
-            return { error: true };
+            return {error: true};
         }
     };
 
@@ -44,7 +40,7 @@ class Login extends Component {
                     style={[styles.actionBar, styles.title]}
                     name={'Catchimal'}
                 />
-                <Button title="Login with Google" onPress={this.signInWithGoogle} />
+                <Button title="Login with Google" onPress={this.signInWithGoogle}/>
             </View>
         );
     }
